@@ -25,9 +25,9 @@ c1 = gtk.TreeViewColumn { title = 'Name',  { rdr_txt, { text = 1   } } }
 c2 = gtk.TreeViewColumn { title = 'Value', { rdr_txt, { text = 2   } } }
 c3 = gtk.TreeViewColumn { title = 'Image', { rdr_px,  { pixbuf = 3 } } }
 
-ui.listItems:append_column(c1)
-ui.listItems:append_column(c2)
-ui.listItems:append_column(c3)
+ui.list:append_column(c1)
+ui.list:append_column(c2)
+ui.list:append_column(c3)
 
 --ui.wnd.on_destroy = gtk.main_quit
 --ui.wnd:show_all()
