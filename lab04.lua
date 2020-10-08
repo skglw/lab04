@@ -6,6 +6,9 @@ gtk.init()
 bld = gtk.Builder()
 bld:add_from_file('lab04.glade')
 ui = bld.objects
+ui.wnd.title = 'lab-04-zhuravleva'
+ui.wnd.on_destroy = gtk.main_quit
+ui.wnd:show_all()
 
 funtion ui.btnAdd:on_clicked(...)
 	name = ui.eName.text
@@ -25,3 +28,7 @@ c3 = gtk.TreeViewColumn { title = 'Image', { rdr_px,  { pixbuf = 3 } } }
 ui.listItems:append_column(c1)
 ui.listItems:append_column(c2)
 ui.listItems:append_column(c3)
+
+--ui.wnd.on_destroy = gtk.main_quit
+--ui.wnd:show_all()
+gtk.main()
