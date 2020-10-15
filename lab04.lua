@@ -1,22 +1,41 @@
 #!/bin/lua5.3
 lgi = require 'lgi'
 gtk = lgi.Gtk
-gtk.init()
 pixbuf = lgi.GdkPixbuf.Pixbuf
+gtk.init()
+
 
 bld = gtk.Builder()
 bld:add_from_file('lab04.glade')
 ui = bld.objects
+
 ui.wnd.title = 'lab-04-zhuravleva'
 ui.wnd.on_destroy = gtk.main_quit
-ui.wnd:show_all()
 
 function ui.btnAdd:on_clicked(...)
 	name = ui.eName.text
 	value = tonumber(ui.eValue.text)
-	px = pixbuf.new_from_file('img-blueberry.png')
+	img ='img-'..ui.eImg.text..'.png'
+--path = path:append('.png')
+	px = pixbuf.new_from_file(img)
 	i = ui.items:append()
 	ui.items[i] = {[1] = name, [2] = value, [3] = px}
+end
+
+function ui.btnDel:on_clicked(...)
+
+	model, iter = ui.tree:get_selected()
+--print(iter)
+	ui.items:remove(iter)
+	--print(ui.items:get_selection())
+--liststore:get_iter_first
+	--ui.items:remove(items:get_iter_first())
+	--ui.items[i] = {[1] = name, [2] = value, [3] = px}
+end
+
+function ui.tree:on_changed(...)
+
+	model, iter = ui.tree:get_selected()
 end
 
 rdr_txt = gtk.CellRendererText {}
@@ -30,6 +49,5 @@ ui.list:append_column(c1)
 ui.list:append_column(c2)
 ui.list:append_column(c3)
 
---ui.wnd.on_destroy = gtk.main_quit
---ui.wnd:show_all()
+ui.wnd:show_all()
 gtk.main()
