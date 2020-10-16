@@ -12,6 +12,34 @@ ui = bld.objects
 ui.wnd.title = 'lab-04-zhuravleva'
 ui.wnd.on_destroy = gtk.main_quit
 
+function ui.btnSave:on_clicked(...)
+file = "lab04"--file name to write 
+fw = io.open(file, 'w')--"a"
+	model = ui.list:get_model()
+i=1
+while i<#model do
+--for m in model do
+fw:write(model[i].."\n")
+i=i+1
+end
+fw:close()
+
+end
+
+function ui.btnLoad:on_clicked(...)
+  local file = "lab04"
+	ui.items:remove(iter)
+
+
+
+  local t= {}
+  for line in io.lines(file) do 
+    t[#t+ 1] = line
+  end
+
+--print(t[1])
+end
+
 function ui.btnAdd:on_clicked(...)
 	name = ui.eName.text
 	value = tonumber(ui.eValue.text)
@@ -34,7 +62,6 @@ function ui.btnDel:on_clicked(...)
 end
 
 function ui.tree:on_changed(...)
-
 	model, iter = ui.tree:get_selected()
 end
 
