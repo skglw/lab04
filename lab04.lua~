@@ -12,29 +12,47 @@ ui = bld.objects
 ui.wnd.title = 'lab-04-zhuravleva'
 ui.wnd.on_destroy = gtk.main_quit
 
-function ui.btnSave:on_clicked(...)
-file = "lab04"--file name to write 
-fw = io.open(file, 'w')--"a"
-	model = ui.list:get_model()
-i=1
-while i<#model do
---for m in model do
-fw:write(model[i].."\n")
-i=i+1
-end
-fw:close()
+names= {}
+values= {}
 
+function ui.btnSave:on_clicked(...)
+--file = "lab04"--file name to write 
+
+for key,value in ipairs(names) do
+print(key,value)
+end
+--fw = io.open(file, 'w')--"a"
+--for i=1,#names do
+
+--string = names[i]..values[i]
+--fw:write(string.."\n")
+--end
+--fw:close()
 end
 
 function ui.btnLoad:on_clicked(...)
   local file = "lab04"
+	--ui.items:remove(iter)
 
-  local t= {}
-  for line in io.lines(file) do 
-    t[#t+ 1] = line
-  end
+for line in io.lines(file) do
+	for s in string.gmatch(line, "%a+") do
+	table.insert(names,s)
+	end
+	for n in string.gmatch(line, "%d+") do
+	table.insert(values,n)
+	end
+end
 
---print(t[1])
+for k=1,#names do
+name = names[k]
+value = values[k]
+img ='img-'..name..'.png'
+px = pixbuf.new_from_file(img)
+i = ui.items:append()
+ui.items[i] = {[1] = name, [2] = value, [3] = px}
+end
+
+--print(table.concat(values,","))
 end
 
 function ui.btnAdd:on_clicked(...)
@@ -45,13 +63,16 @@ function ui.btnAdd:on_clicked(...)
 	px = pixbuf.new_from_file(img)
 	i = ui.items:append()
 	ui.items[i] = {[1] = name, [2] = value, [3] = px}
+table.insert(names, name)
+table.insert(values, value)
 end
 
 function ui.btnDel:on_clicked(...)
-
-	model, iter = ui.tree:get_selected()
---print(iter)
+model, iter = ui.tree:get_selected()
+--print(tostring(ui.items:get_value(iter,1)))
 	ui.items:remove(iter)
+--table.remove(names, iter)
+--table.remove(values, iter)
 	--print(ui.items:get_selection())
 --liststore:get_iter_first
 	--ui.items:remove(items:get_iter_first())
